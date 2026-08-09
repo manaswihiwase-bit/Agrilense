@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+.env
+*.db
+ai_model/dataset/
+backend/node_modules/
+backend/uploads/

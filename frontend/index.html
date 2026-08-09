@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agrilense Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bg_files/leaf.jpg">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            🌱 <span>AGRILENSE</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="active">
+                🏠 <span>Dashboard</span>
+            </a>
+
+            <a href="#scanSection">
+                📷 <span>Scan Crop</span>
+            </a>
+
+            <a href="#analyticsSection">
+                📊 <span>Analytics</span>
+            </a>
+
+            <a href="#historySection">
+                📜 <span>History</span>
+            </a>
+
+            <a href="#weatherSection">
+                🌦️ <span>Weather</span>
+            </a>
+
+            <a href="#">
+                🤖 <span>AI Assistant</span>
+            </a>
+
+        </nav>
+
+        <button id="logoutBtn" class="logout-btn">
+            🚪 Logout
+        </button>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+                <h2>Dashboard</h2>
+                <p>Smart farming insights at your fingertips.</p>
+            </div>
+
+            <div class="profile">
+                <div class="profile-icon">
+                    👤
+                </div>
+
+                <span>Farmer</span>
+            </div>
+
+        </header>
+
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome-section">
+
+            <div>
+                <h1>Welcome back 👋</h1>
+
+                <p>
+                    Monitor your crop health and make smarter
+                    farming decisions with Agrilense.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats-grid" id="analyticsSection">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+                <div>
+                    <p>Total Predictions</p>
+                    <h2 id="totalPredictions">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🌱
+                </div>
+
+                <div>
+                    <p>Healthy Crops</p>
+                    <h2 id="healthyPredictions">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+                <div>
+                    <p>Diseases Detected</p>
+                    <h2 id="diseasedPredictions">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div>
+                    <p>Avg. Confidence</p>
+                    <h2 id="averageConfidence">0%</h2>
+                </div>
+
+            </div>
+
+        </section>
+        <section class="dashboard-card analytics-card" id="analyticsSection">
+
+            <div class="section-heading">
+                <div>
+                    <h2>📊 Disease Analytics</h2>
+                    <p>Distribution of detected crop conditions</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="diseaseChart"></canvas>
+            </div>
+
+        </section>
+
+
+        <!-- ================= DASHBOARD GRID ================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ================= QUICK SCAN ================= -->
+
+            <div class="dashboard-card scan-card" id="scanSection">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>📷 Quick Crop Scan</h2>
+
+                        <p>
+                            Upload a crop image and let AI analyze it.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="upload-area">
+
+                    <input type="file" id="imageInput" hidden>
+
+                    <label for="imageInput" class="uploadbox">
+
+                        <div class="upload-icon">
+                            📷
+                        </div>
+
+                        <h3>Upload Crop Image</h3>
+
+                        <p>
+                            Click to select a leaf image
+                        </p>
+
+                        <span>
+                            JPG • JPEG • PNG
+                        </span>
+
+                    </label>
+
+                    <img id="imagePreview" alt="Selected crop image">
+
+                </div>
+                <div class="camera-section">
+
+                    <button id="cameraBtn" type="button">
+                        📷 Open Camera
+                    </button>
+
+                    <div id="cameraContainer" style="display: none;">
+
+                        <video id="cameraVideo" autoplay playsinline>
+                        </video>
+
+                        <button id="captureBtn" type="button">
+                            📸 Capture Leaf
+                        </button>
+
+                        <canvas id="cameraCanvas" style="display: none;"></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <button id="analyzebtn" class="analyze-btn">
+                    Analyze Crop
+                </button>
+
+
+                <!-- LOADING -->
+
+                <div id="loading">
+
+                    <div class="spinner"></div>
+
+                    <p>
+                        Analyzing your crop...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= WEATHER ================= -->
+
+            <div class="dashboard-card weather-card" id="weatherSection">
+
+                <div class="card-header">
+
+                    <h2>🌦️ Farm Weather</h2>
+
+                    <p id="weatherLocation">
+                        Detecting location...
+                    </p>
+
+                </div>
+
+
+                <div class="weather-main">
+
+                    <div class="weather-icon" id="weatherIcon">
+                        🌤️
+                    </div>
+
+                    <div>
+
+                        <h1 id="temperature">
+                            --°C
+                        </h1>
+
+                        <p id="weatherCondition">
+                            Loading weather...
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="weather-details">
+
+                    <div>
+                        <span>💧</span>
+                        <p>Humidity</p>
+                        <strong id="humidity">--%</strong>
+                    </div>
+
+
+                    <div>
+                        <span>🌧️</span>
+                        <p>Rain Chance</p>
+                        <strong id="rainChance">--%</strong>
+                    </div>
+
+
+                    <div>
+                        <span>💨</span>
+                        <p>Wind</p>
+                        <strong id="windSpeed">-- km/h</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RESULT ================= -->
+
+        <section id="resultSection" class="result-dashboard-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>🔬 Latest Analysis</h2>
+
+                    <p>AI-powered crop health assessment</p>
+                </div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+
+                <!-- DISEASE -->
+
+                <div class="result-box diseaseBox">
+
+                    <span>Detected Issue</span>
+
+                    <h3 id="diseaseresult"></h3>
+
+                </div>
+
+
+                <!-- RECOMMENDATION -->
+
+                <div class="result-box recommendation">
+
+                    <span>Recommendation</span>
+
+                    <p id="suggestionrel"></p>
+
+                </div>
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="result-box confidenceBox">
+
+                    <span>Confidence</span>
+
+                    <div class="progress">
+
+                        <div id="confidenceBar"></div>
+
+                        <span id="confidencerel"></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button id="resetbtn" class="reset-btn">
+                Analyze Another Image
+            </button>
+
+        </section>
+
+
+        <!-- ================= RECENT HISTORY ================= -->
+
+        <section class="dashboard-card history-card" id="historySection">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>📜 Recent Predictions</h2>
+
+                    <p>Your latest crop analysis results</p>
+                </div>
+
+            </div>
+
+            <div id="historyContainer">
+
+                <!-- History will be loaded by script.js -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FUTURE FEATURES ================= -->
+
+        <section class="future-section">
+
+            <div class="future-card">
+
+                <span>📊</span>
+
+                <h3>Advanced Analytics</h3>
+
+                <p>
+                    Track disease trends and crop health over time.
+                </p>
+
+            </div>
+
+
+            <div class="future-card">
+
+                <span>📷</span>
+
+                <h3>Live Camera Scanner</h3>
+
+                <p>
+                    Scan crop diseases directly using your camera.
+                </p>
+
+            </div>
+            <div class="future-card" id="chatbotCard">
+
+                <div class="chatbot-header">
+                    <div>
+                        <span>🤖</span>
+                        <h3>AI Farming Assistant</h3>
+                    </div>
+
+                    <button id="closeChatbot">✕</button>
+                </div>
+
+                <div class="chatbot-messages" id="chatbotMessages">
+                    <div class="bot-message">
+                        Hello! 👋 I'm your AI Farming Assistant.
+                        Ask me anything about crop diseases, fertilizers, or farming.
+                    </div>
+                </div>
+
+                <div class="chatbot-input-area">
+                    <input type="text" id="chatbotInput" placeholder="Ask your farming question...">
+
+                    <button id="sendChatbotMessage">Send</button>
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer class="footer">
+
+            <h3>🌱 Agrilense</h3>
+
+            <p>
+                AI-powered crop health analysis for smarter farming.
+            </p>
+
+            <p>
+                © 2026 Agrilense. All rights reserved.
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- ================= AUTH PROTECTION ================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
