@@ -2,5 +2,6 @@ flask
 tensorflow
 opencv-python
 numpy
-pillowopenai
+pillow
+openai
 gunicorn
